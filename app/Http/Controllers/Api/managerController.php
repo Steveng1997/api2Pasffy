@@ -225,7 +225,7 @@ class managerController extends Controller
 
     // Register
 
-    public function saveManager(Request $request)
+    public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'active' => '',

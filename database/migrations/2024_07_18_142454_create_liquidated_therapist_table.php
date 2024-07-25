@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('liquidatedTherapist', function (Blueprint $table) {
             $table->id();
-            $table->string('amount');
+            $table->decimal('amount');
             $table->string('company');
             $table->integer('currentDate');
-            $table->integer('dateStart');
-            $table->string('dateEnd');
-            $table->boolean('manager');
-            $table->integer('payment');
+            $table->dateTime('dateStart');
+            $table->dateTime('dateEnd');
+            $table->string('idTherap');
+            $table->string('manager');
+            $table->string('payment');
             $table->string('therapist');
             $table->integer('treatment');
             $table->string('uniqueId');
-            $table->integer('idTherap');
             $table->datetimes();
         });
     }

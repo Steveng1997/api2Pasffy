@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('liquidatedManager', function (Blueprint $table) {
             $table->id();
-            $table->string('amount');
+            $table->decimal('amount');
             $table->string('company');
             $table->integer('currentDate');
-            $table->integer('dateStart');
-            $table->string('dateEnd');
+            $table->dateTime('dateStart');
+            $table->dateTime('dateEnd');
             $table->integer('fixeDay');
-            $table->boolean('manager');
-            $table->string('therapist');
+            $table->string('idManag');
+            $table->string('manager');
             $table->integer('treatment');
             $table->string('uniqueId');
-            $table->integer('idManag');
             $table->datetimes();
         });
     }

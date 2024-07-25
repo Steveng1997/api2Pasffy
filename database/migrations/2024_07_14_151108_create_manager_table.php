@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->boolean('expiration');
             $table->integer('fixeDay');
-            $table->string('name');
+            $table->string('name')->nullable(true);
             $table->integer('others');
             $table->string('password');
             $table->string('rol');

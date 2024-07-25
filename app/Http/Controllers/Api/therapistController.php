@@ -149,9 +149,8 @@ class therapistController extends Controller
 
     // Register
 
-    public function saveTherapist(Request $request)
+    public function save(Request $request)
     {
-        info($request);
         $therapist = Therapist::create([
             'active' => $request->active,
             'company' => $request->company,
@@ -171,9 +170,9 @@ class therapistController extends Controller
         if (!$therapist) {
             $data = [
                 'message' => 'Error al crear la terapeuta',
-                'status' => 500
+                'status' => 404
             ];
-            return response()->json($data, 500);
+            return response()->json($data, 404);
         }
 
         $data = [
