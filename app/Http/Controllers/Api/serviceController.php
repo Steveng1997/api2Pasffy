@@ -1486,23 +1486,6 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateNumberFloor1ByUniqueId(Request $request, $uniqueId)
-    {
-        $service = Service::where('uniqueId', $uniqueId)->update([
-            'numberFloor1' => $request->input('numberFloor1'),
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
     public function updateNumberFloor2ZeroById($id)
     {
         $service = Service::find($id)->update([

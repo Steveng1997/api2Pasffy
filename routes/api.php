@@ -172,7 +172,6 @@ Route::put('/service/amountsById/{id}', [serviceController::class, 'updateAmount
 Route::put('/service/numberFloor1/{uniqueId}', [serviceController::class, 'updateNumberFloor1']);
 Route::put('/service/updateValues/{id}', [serviceController::class, 'updateValues']);
 Route::put('/service/numberFloor1ById/{id}', [serviceController::class, 'updateNumberFloor1ById']);
-Route::put('/service/numberFloor1ByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberFloor1ByUniqueId']);
 Route::put('/service/numberFloor2ZeroById/{id}', [serviceController::class, 'updateNumberFloor2ZeroById']);
 Route::put('/service/numberFloor2ByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberFloor2ByUniqueId']);
 Route::put('/service/liquidatedTherapist/{id}', [serviceController::class, 'updateLiquidatedTherapist']);

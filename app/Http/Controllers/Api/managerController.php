@@ -45,7 +45,7 @@ class managerController extends Controller
 
     public function getIdAndRol($id)
     {
-        $manager = Manager::where(['id' => $id, 'rol' => 'administrador'])->get();
+        $manager = Manager::where(['id' => $id, 'rol' => 'Administrador'])->get();
 
         if (!$manager) {
             $data = [
