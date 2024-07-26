@@ -175,12 +175,6 @@ Route::put('/service/numberFloor1ById/{id}', [serviceController::class, 'updateN
 Route::put('/service/numberFloor1ByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberFloor1ByUniqueId']);
 Route::put('/service/numberFloor2ZeroById/{id}', [serviceController::class, 'updateNumberFloor2ZeroById']);
 Route::put('/service/numberFloor2ByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberFloor2ByUniqueId']);
-Route::put('/service/numberManagerByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberManagerByUniqueId']);
-Route::put('/service/numberManagerById/{id}', [serviceController::class, 'updateNumberManagerById']);
-Route::put('/service/numberTherapistByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberTherapistByUniqueId']);
-Route::put('/service/numberTherapistById/{id}', [serviceController::class, 'updateNumberTherapistById']);
-Route::put('/service/numberTaxiByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberTaxiByUniqueId']);
-Route::put('/service/numberTaxiById/{id}', [serviceController::class, 'updateNumberTaxiById']);
 Route::put('/service/liquidatedTherapist/{id}', [serviceController::class, 'updateLiquidatedTherapist']);
 Route::put('/service/liquidatedManager/{id}', [serviceController::class, 'updateLiquidatedManager']);
 Route::put('/service/liquidatedClosing/{id}', [serviceController::class, 'updateLiquidatedClosing']);
