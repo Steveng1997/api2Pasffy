@@ -202,27 +202,7 @@ class managerController extends Controller
 
         return response()->json($data, 200);
     }
-
-    public function companyByDistinct($company)
-    {
-        $manager = Manager::where(['company' => $company])->distinct('company')->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
+    
     // Register
 
     public function save(Request $request)

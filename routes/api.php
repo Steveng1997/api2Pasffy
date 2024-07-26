@@ -21,7 +21,6 @@ Route::get('/manager/company/{company}', [managerController::class, 'getByCompan
 Route::get('/manager/getIdCompany/{id}/{company}', [managerController::class, 'getIdAndCompany']);
 Route::get('/manager/getAdmin', [managerController::class, 'getAdmin']);
 Route::get('/manager/companyAndActive/{company}', [managerController::class, 'getByCompanyAndActive']);
-Route::get('/manager/companyDistinct/{company}', [managerController::class, 'companyByDistinct']);
 
 // Register
 Route::post('/manager', [managerController::class, 'save']);
