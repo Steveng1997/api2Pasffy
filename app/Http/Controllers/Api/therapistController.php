@@ -185,6 +185,68 @@ class therapistController extends Controller
 
     // Update
 
+    public function update(Request $request, $id)
+    {
+        $therapist = Therapist::find($id);
+
+        if (!$therapist) {
+            $data = [
+                'message' => 'Terapeuta no encontrada',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'active' => '',
+            'company' => '',
+            'dateEnd' => '',
+            'drink' => '',
+            'drinkTherapist' => '',
+            'exit' => '',
+            'minutes' => '',
+            'name' => '',
+            'others' => '',
+            'service' => '',
+            'tabacco' => '',
+            'tip' => '',
+            'vitamin' => ''
+        ]);
+
+        if ($validator->fails()) {
+            $data = [
+                'message' => 'Error en la validación de los datos',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
+        }
+
+        $therapist->active = $request->active;
+        $therapist->company = $request->company;
+        $therapist->dateEnd = $request->dateEnd;
+        $therapist->drink = $request->drink;
+        $therapist->drinkTherapist = $request->drinkTherapist;
+        $therapist->exit = $request->exit;
+        $therapist->minutes = $request->minutes;
+        $therapist->name = $request->name;
+        $therapist->others = $request->others;
+        $therapist->service = $request->service;
+        $therapist->tabacco = $request->tabacco;
+        $therapist->tip = $request->tip;
+        $therapist->vitamin = $request->vitamin;
+
+        $therapist->save();
+
+        $data = [
+            'message' => 'Therapist actualizada',
+            'therapist' => $therapist,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
     public function update3Item(Request $request, $name)
     {
         $therapist = Therapist::where('name', $name)->first();

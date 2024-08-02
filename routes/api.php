@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\managerController;
 use App\Http\Controllers\Api\serviceController;
 use App\Http\Controllers\Api\therapistController;
-use App\Http\Controllers\liquidatedManagerController;
-use App\Http\Controllers\liquidatedTherapistController;
+use App\Http\Controllers\Api\liquidatedManagerController;
+use App\Http\Controllers\Api\liquidatedTherapistController;
 
 // Manager
 
@@ -102,19 +102,14 @@ Route::delete('/liquidationTherapist/{id}', [liquidatedTherapistController::clas
 // Services
 
 Route::get('/service', [serviceController::class, 'index']);
-Route::get('/service/closingActive', [serviceController::class, 'getClosingActive']);
 Route::get('/service/therapistAndManagerNotLiquidatedTherapist/{therapist}/{manager}', [serviceController::class, 'getByTherapistAndManagerNotLiquidatedTherapist']);
 Route::get('/service/therapistNotLiquidatedTherapist/{therapist}', [serviceController::class, 'getByTherapistNotLiquidatedTherapist']);
 Route::get('/service/managerNotLiquidatedManager/{manager}', [serviceController::class, 'getByManagerNotLiquidatedManager']);
-Route::get('/service/managerAndNotClosing/{manager}', [serviceController::class, 'getByManagerAndNotClosing']);
 Route::get('/service/managerCurrentDateDesc/{manager}', [serviceController::class, 'getByManagerCurrentDateDesc']);
 Route::get('/service/liquidateTherapistFalse', [serviceController::class, 'getByLiquidateTherapistFalse']);
 Route::get('/service/liquidateManagerFalse', [serviceController::class, 'getByLiquidateManagerFalse']);
 Route::get('/service/idTherapist/{idTherap}', [serviceController::class, 'getByIdTherapist']);
-Route::get('/service/idClosingDistinctTherapist/{idClosing}', [serviceController::class, 'getByIdClosingDistinctTherapist']);
-Route::get('/service/idClosing/{idClosing}', [serviceController::class, 'getByIdClosing']);
 Route::get('/service/idManager/{idManag}', [serviceController::class, 'getByIdManager']);
-Route::get('/service/closingFalse', [serviceController::class, 'getByClosingFalse']);
 Route::get('/service/getId/{id}', [serviceController::class, 'getById']);
 Route::get('/service/idEditTrue/{id}', [serviceController::class, 'getByIdEditTrue']);
 Route::get('/service/therapistIdAsc/{therapist}', [serviceController::class, 'getByTherapistIdAsc']);
@@ -141,9 +136,6 @@ Route::get('/service/managerIdAsc/{manager}', [serviceController::class, 'getByM
 Route::get('/service/managerIdDesc/{manager}', [serviceController::class, 'getByManagerIdDesc']);
 Route::get('/service/dateDayAndCompantCurrentDateDesc/{dateToday}/{company}', [serviceController::class, 'getByDateDayAndCompantCurrentDateDesc']);
 Route::get('/service/uniqueIdDesc/{uniqueId}', [serviceController::class, 'getByUniqueIdDesc']);
-Route::get('/service/managerAndNotClosingCurrentDateAsc/{manager}', [serviceController::class, 'getByManagerAndNotClosingCurrentDateAsc']);
-Route::get('/service/managerAndClosingCurrentDateAsc/{manager}', [serviceController::class, 'getByManagerAndClosingCurrentDateAsc']);
-Route::get('/service/managerAndClosingCurrentDateDesc/{manager}', [serviceController::class, 'getByManagerAndClosingCurrentDateDesc']);
 Route::get('/service/therapistAndManagerAndCompany/{therapist}/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByTherapistAndManagerAndCompany']);
 Route::get('/service/managerAndDateStartAndDateEndAndCompany/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByManagerAndDateStartAndDateEndAndCompany']);
 Route::get('/service/todayDateAndManagerAndCompanyCurrentDateDesc/{dateToday}/{manager}/{company}', [serviceController::class, 'getByTodayDateAndManagerAndCompanyCurrentDateDesc']);
@@ -152,14 +144,6 @@ Route::get('/service/todayDateAndTherapistAndCompany/{dateToday}/{therapist}/{co
 Route::get('/service/todayDateAndManagerAndCompany/{dateToday}/{manager}/{company}', [serviceController::class, 'getByTodayDateAndManagerAndCompany']);
 Route::get('/service/todayDateAndManagerAndCompanyDistinctTherapist/{dateToday}/{manager}/{company}', [serviceController::class, 'getByTodayDateAndManagerAndCompanyDistinctTherapist']);
 Route::get('/service/todayDateAndTherapistAndManagerAndCompany/{dateToday}/{therapist}/{manager}/{company}', [serviceController::class, 'getByTodayDateAndTherapistAndManagerAndCompany']);
-Route::get('/service/managerAndCompanyAndNotClsingDistinctTherapist/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByManagerAndCompanyAndNotClsingDistinctTherapist']);
-Route::get('/service/managerAndCompanyAndNotClsing/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByManagerAndCompanyAndNotClsing']);
-Route::get('/service/managerAndCompanyAndNotClsingNumberTherapBiggerZero/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByManagerAndCompanyAndNotClsingNumberTherapBiggerZero']);
-Route::get('/service/numberTherapBiggerZeroAndDistinctTherapist/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getNumberTherapBiggerZeroAndDistinctTherapist']);
-Route::get('/service/therapistAndManagerAndCompanyAndNotClsing/{therapist}/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByTherapistAndManagerAndCompanyAndNotClsing']);
-Route::get('/service/therapistAndManagerAndCompanyAndClsing/{therapist}/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getByTherapistAndManagerAndCompanyAndClsing']);
-Route::get('/service/numberTherapBiggerZeroAndNotClosing/{therapist}/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getNumberTherapBiggerZeroAndNotClosing']);
-Route::get('/service/numberTherapBiggerZeroAndClosing/{therapist}/{manager}/{dateStart}/{dateEnd}/{company}', [serviceController::class, 'getNumberTherapBiggerZeroAndClosing']);
 Route::get('/service/company/{company}', [serviceController::class, 'getCompany']);
 
 // Register
@@ -175,10 +159,8 @@ Route::put('/service/numberFloor2ZeroById/{id}', [serviceController::class, 'upd
 Route::put('/service/numberFloor2ByUniqueId/{uniqueId}', [serviceController::class, 'updateNumberFloor2ByUniqueId']);
 Route::put('/service/liquidatedTherapist/{id}', [serviceController::class, 'updateLiquidatedTherapist']);
 Route::put('/service/liquidatedManager/{id}', [serviceController::class, 'updateLiquidatedManager']);
-Route::put('/service/liquidatedClosing/{id}', [serviceController::class, 'updateLiquidatedClosing']);
 Route::put('/service/liquidatedTherapistByIdTherap/{idTherap}', [serviceController::class, 'updateLiquidatedTherapistByIdTherap']);
 Route::put('/service/liquidatedManagerByIdManager/{idManag}', [serviceController::class, 'updateLiquidatedManagerByIdManager']);
-Route::put('/service/closingByIdClosing/{idClosing}', [serviceController::class, 'updateClosingByIdClosing']);
 Route::put('/service/screen/{id}', [serviceController::class, 'updateScreen']);
 Route::put('/service/note/{id}', [serviceController::class, 'updateNotes']);
 

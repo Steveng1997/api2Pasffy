@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LiquidatedTherapist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class liquidatedTherapistController extends Controller
 {
@@ -111,7 +112,9 @@ class liquidatedTherapistController extends Controller
 
     public function getDateCurrentDay($created_at, $company)
     {
-        $liquidTherapist = LiquidatedTherapist::where(['created_at' => $created_at, 'company' => $company])->orderBy('currentDate', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::where(['company' => $company])
+        ->whereDate('created_at', '=', Carbon::parse($created_at))
+        ->orderBy('currentDate', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [

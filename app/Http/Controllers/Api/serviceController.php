@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class serviceController extends Controller
 {
@@ -14,26 +14,6 @@ class serviceController extends Controller
     public function index()
     {
         $service = Service::all()->sortByDesc('currentDate');
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getClosingActive()
-    {
-        $service = Service::where('closing', '1')->orderBy('id', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -94,26 +74,6 @@ class serviceController extends Controller
     public function getByManagerNotLiquidatedManager($manager)
     {
         $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndNotClosing($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '0'])->get();
 
         if (!$service) {
             $data = [
@@ -211,69 +171,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByIdClosingDistinctTherapist($idClosing)
-    {
-        $service = Service::where('idClosing', $idClosing)->distinct('therapist')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByIdClosing($idClosing)
-    {
-        $service = Service::where('idClosing', $idClosing)->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
     public function getByIdManager($idManag)
     {
         $service = Service::where('idManag', $idManag)->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByClosingFalse()
-    {
-        $service = Service::where('closing', '0')->orderBy('currentDate', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -753,7 +653,10 @@ class serviceController extends Controller
 
     public function getByDateDayAndCompantCurrentDateDesc($dateToday, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'company' => $company])->orderBy('currentDate', 'desc')->get();
+        $service = Service::where(['company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->orderBy('currentDate', 'desc')
+            ->get();
 
         if (!$service) {
             $data = [
@@ -774,66 +677,6 @@ class serviceController extends Controller
     public function getByUniqueIdDesc($uniqueId)
     {
         $service = Service::where('uniqueId', $uniqueId)->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndNotClosingCurrentDateAsc($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '0'])->orderBy('currentDate', 'asc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndClosingCurrentDateAsc($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '1'])->orderBy('currentDate', 'asc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndClosingCurrentDateDesc($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '1'])->orderBy('currentDate', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -899,7 +742,10 @@ class serviceController extends Controller
 
     public function getByTodayDateAndManagerAndCompanyCurrentDateDesc($dateToday, $manager, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'manager' => $manager, 'company' => $company])->orderBy('currentDate', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->orderBy('currentDate', 'desc')
+            ->get();
 
         if (!$service) {
             $data = [
@@ -939,7 +785,9 @@ class serviceController extends Controller
 
     public function getByTodayDateAndTherapistAndCompany($dateToday, $therapist, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'therapist' => $therapist, 'company' => $company])->get();
+        $service = Service::where(['therapist' => $therapist, 'company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->get();
 
         if (!$service) {
             $data = [
@@ -959,7 +807,9 @@ class serviceController extends Controller
 
     public function getByTodayDateAndManagerAndCompany($dateToday, $manager, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'manager' => $manager, 'company' => $company])->get();
+        $service = Service::where(['manager' => $manager, 'company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->get();
 
         if (!$service) {
             $data = [
@@ -979,7 +829,10 @@ class serviceController extends Controller
 
     public function getByTodayDateAndManagerAndCompanyDistinctTherapist($dateToday, $manager, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'manager' => $manager, 'company' => $company])->distinct('therapist')->get();
+        $service = Service::where(['manager' => $manager, 'company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->distinct('therapist')
+            ->get();
 
         if (!$service) {
             $data = [
@@ -999,173 +852,9 @@ class serviceController extends Controller
 
     public function getByTodayDateAndTherapistAndManagerAndCompany($dateToday, $therapist, $manager, $company)
     {
-        $service = Service::where(['dateToday' => $dateToday, 'therapist' => $therapist, 'manager' => $manager, 'company' => $company])->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndCompanyAndNotClsingDistinctTherapist($manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '0', 'company' => $company])
-            ->distinct('therapist')
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndCompanyAndNotClsing($manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => '0', 'company' => $company])
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndCompanyAndNotClsingNumberTherapBiggerZero($manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => 0, 'company' => $company])
-            ->where('numberTherapist', '>', 0)
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getNumberTherapBiggerZeroAndDistinctTherapist($manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['manager' => $manager, 'closing' => 0, 'company' => $company])
-            ->where('numberTherapist', '>', 0)
-            ->distinct('therapist')
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByTherapistAndManagerAndCompanyAndNotClsing($therapist, $manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'closing' => 0, 'company' => $company])
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByTherapistAndManagerAndCompanyAndClsing($therapist, $manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'closing' => 1, 'company' => $company])
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getNumberTherapBiggerZeroAndNotClosing($therapist, $manager, $dateStart, $dateEnd, $company)
-    {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'closing' => 0, 'company' => $company])
-            ->where('numberTherapist', '>', 0)
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'company' => $company])
+            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->get();
 
         if (!$service) {
             $data = [
@@ -1556,25 +1245,6 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateLiquidatedClosing(Request $request, $id)
-    {
-        $service = Service::find($id)->update([
-            'closing' => 1,
-            'idClosing' => $request->input('idClosing')
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-
     public function updateLiquidatedTherapistByIdTherap($idTherap)
     {
         $service = Service::where('idTherap', $idTherap)->update([
@@ -1598,24 +1268,6 @@ class serviceController extends Controller
         $service = Service::where('idManag', $idManag)->update([
             'liquidatedManager' => 0,
             'idManag' => ''
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateClosingByIdClosing($idClosing)
-    {
-        $service = Service::where('idClosing', $idClosing)->update([
-            'closing' => 0,
-            'idClosing' => ''
         ]);
 
         if ($service) {

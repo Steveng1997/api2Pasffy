@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('client')->nullable(true);
             $table->string('company');
             $table->string('createdBy');
-            $table->integer('currentDate');
+            $table->bigInteger('currentDate');
             $table->dateTime('dateStart');
             $table->dateTime('dateEnd');
             $table->dateTime('dateToday');
@@ -40,13 +40,13 @@ return new class extends Migration
             $table->decimal('drinkTherapist', 8, 3);
             $table->boolean('edit');
             $table->string('exit')->nullable(true);
-            $table->string('idClosing');
-            $table->string('idManag');
-            $table->string('idTherap');
+            $table->string('idClosing')->nullable(true);
+            $table->string('idManag')->nullable(true);
+            $table->string('idTherap')->nullable(true);
             $table->boolean('liquidatedManager');
             $table->boolean('liquidatedTherapist');
             $table->string('manager');
-            $table->integer('minutes');
+            $table->integer('minutes')->nullable(true);
             $table->string('modifiedBy')->nullable(true);
             $table->string('note')->nullable(true);
             $table->decimal('numberManager', 8, 3);

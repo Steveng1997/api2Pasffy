@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LiquidatedManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class liquidatedManagerController extends Controller
 {
@@ -71,7 +72,9 @@ class liquidatedManagerController extends Controller
 
     public function getDateCurrentDay($created_at, $company)
     {
-        $liquidManager = LiquidatedManager::where(['created_at' => $created_at, 'company' => $company])->get();
+        $liquidManager = LiquidatedManager::where(['company' => $company])
+        ->whereDate('created_at', '=', Carbon::parse($created_at))
+        ->get();
 
         if (!$liquidManager) {
             $data = [

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->decimal('amount');
             $table->string('company');
-            $table->integer('currentDate');
-            $table->dateTime('dateStart');
-            $table->dateTime('dateEnd');
-            $table->integer('fixeDay');
-            $table->string('idManag');
-            $table->string('manager');
+            $table->bigInteger('currentDate');
+            $table->dateTime('dateStart')->nullable(true);
+            $table->dateTime('dateEnd')->nullable(true);
+            $table->integer('fixeDay')->nullable(true);
+            $table->string('idManag')->nullable(true);
+            $table->string('manager')->nullable(true);
             $table->integer('treatment');
             $table->string('uniqueId');
             $table->datetimes();

@@ -9,7 +9,7 @@ class LiquidatedTherapist extends Model
 {
     use HasFactory;
 
-    protected $table = 'liquidatedTherapist';
+    protected $table = 'liquidatedtherapist';
 
     protected $fillable = [
         'amount',
