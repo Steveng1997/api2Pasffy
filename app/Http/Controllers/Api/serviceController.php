@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class serviceController extends Controller
 {
@@ -413,7 +414,7 @@ class serviceController extends Controller
 
     public function getByTherapistAndManagerAndNotLiquidatedTherapistCurrentDateAsc($therapist, $manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('currentDate', 'asc')->get();
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('dateStart', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -696,10 +697,13 @@ class serviceController extends Controller
 
     public function getByTherapistAndManagerAndCompany($therapist, $manager, $dateStart, $dateEnd, $company)
     {
+        $fromDate = $dateStart;
+        $toDate = $dateEnd;
+
         $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0', 'company' => $company])
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
-            ->orderBy('id', 'desc')->get();
+            ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
+            ->orderBy('id', 'desc')
+            ->get();
 
         if (!$service) {
             $data = [
@@ -719,9 +723,11 @@ class serviceController extends Controller
 
     public function getByManagerAndDateStartAndDateEndAndCompany($manager, $dateStart, $dateEnd, $company)
     {
+        $fromDate = $dateStart;
+        $toDate = $dateEnd;
+
         $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0', 'company' => $company])
-            ->whereDate('dateStart', '>=', $dateStart)
-            ->whereDate('dateEnd', '<=', $dateEnd)
+            ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
             ->orderBy('id', 'desc')->get();
 
         if (!$service) {
