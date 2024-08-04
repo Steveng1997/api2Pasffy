@@ -18,9 +18,9 @@ class LiquidatedManager extends Model
         'dateStart',
         'dateEnd',
         'fixeDay',
+        'idManag',
         'manager',
         'treatment',
         'uniqueId',
-        'idManag'
     ];
 }

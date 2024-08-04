@@ -17,11 +17,11 @@ class LiquidatedTherapist extends Model
         'currentDate',
         'dateStart',
         'dateEnd',
+        'idTherap',
         'manager',
         'payment',
         'therapist',
         'treatment',
         'uniqueId',
-        'idTherap'
     ];
 }
