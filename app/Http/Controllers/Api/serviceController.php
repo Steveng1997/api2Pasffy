@@ -728,7 +728,8 @@ class serviceController extends Controller
 
         $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0', 'company' => $company])
             ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
-            ->orderBy('id', 'desc')->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
         if (!$service) {
             $data = [

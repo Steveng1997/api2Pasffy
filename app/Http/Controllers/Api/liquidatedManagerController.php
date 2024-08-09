@@ -73,8 +73,8 @@ class liquidatedManagerController extends Controller
     public function getDateCurrentDay($created_at, $company)
     {
         $liquidManager = LiquidatedManager::where(['company' => $company])
-        ->whereDate('created_at', '=', Carbon::parse($created_at))
-        ->get();
+            ->whereDate('created_at', '=', Carbon::parse($created_at))
+            ->get();
 
         if (!$liquidManager) {
             $data = [
@@ -94,7 +94,9 @@ class liquidatedManagerController extends Controller
 
     public function getDateTodayByManager($created_at, $manager, $company)
     {
-        $liquidManager = LiquidatedManager::where(['created_at' => $created_at, 'manager' => $manager, 'company' => $company])->get();
+        $liquidManager = LiquidatedManager::where(['manager' => $manager, 'company' => $company])
+            ->whereDate('created_at', '=', Carbon::parse($created_at))
+            ->get();
 
         if (!$liquidManager) {
             $data = [
