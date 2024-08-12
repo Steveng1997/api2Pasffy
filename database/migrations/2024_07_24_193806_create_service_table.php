@@ -30,7 +30,6 @@ return new class extends Migration
             $table->boolean('cashTherapist');
             $table->boolean('closing');
             $table->string('client')->nullable(true);
-            $table->string('company');
             $table->string('createdBy');
             $table->bigInteger('currentDate');
             $table->dateTime('dateStart');

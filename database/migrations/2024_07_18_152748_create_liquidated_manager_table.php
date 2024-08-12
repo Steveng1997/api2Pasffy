@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('liquidatedManager', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount');
-            $table->string('company');
             $table->bigInteger('currentDate');
             $table->dateTime('dateStart')->nullable(true);
             $table->dateTime('dateEnd')->nullable(true);

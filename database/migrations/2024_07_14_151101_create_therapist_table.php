@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('therapist', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
-            $table->string('company');
             $table->dateTime('dateEnd')->nullable(true);
             $table->integer('drink');
             $table->integer('drinkTherapist');

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('manager', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
-            $table->string('company');
             $table->integer('drink');
             $table->integer('drinkTherapist');
             $table->string('email');
