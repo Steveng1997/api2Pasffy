@@ -10,9 +10,9 @@ use Carbon\Carbon;
 
 class liquidatedManagerController extends Controller
 {
-    public function getByCompany($company)
+    public function index()
     {
-        $liquidManager = LiquidatedManager::where('company', $company)->orderBy('id', 'desc')->get();
+        $liquidManager = LiquidatedManager::orderBy('id', 'desc')->get();
 
         if (!$liquidManager) {
             $data = [
@@ -70,11 +70,9 @@ class liquidatedManagerController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getDateCurrentDay($created_at, $company)
+    public function getDateCurrentDay($created_at)
     {
-        $liquidManager = LiquidatedManager::where(['company' => $company])
-            ->whereDate('created_at', '=', Carbon::parse($created_at))
-            ->get();
+        $liquidManager = LiquidatedManager::whereDate('created_at', '=', Carbon::parse($created_at))->get();
 
         if (!$liquidManager) {
             $data = [
@@ -92,9 +90,9 @@ class liquidatedManagerController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getDateTodayByManager($created_at, $manager, $company)
+    public function getDateTodayByManager($created_at, $manager)
     {
-        $liquidManager = LiquidatedManager::where(['manager' => $manager, 'company' => $company])
+        $liquidManager = LiquidatedManager::where(['manager' => $manager])
             ->whereDate('created_at', '=', Carbon::parse($created_at))
             ->get();
 
@@ -120,7 +118,6 @@ class liquidatedManagerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => '',
-            'company' => '',
             'currentDate' => '',
             'dateStart' => '',
             'dateEnd' => '',
@@ -142,7 +139,6 @@ class liquidatedManagerController extends Controller
 
         $liquidManager = LiquidatedManager::create([
             'amount' => $request->amount,
-            'company' => $request->company,
             'currentDate' => $request->currentDate,
             'dateStart' => $request->dateStart,
             'dateEnd' => $request->dateEnd,

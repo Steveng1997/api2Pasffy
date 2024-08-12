@@ -86,50 +86,10 @@ class therapistController extends Controller
 
         return response()->json($data, 200);
     }
-
-    public function getByCompany($company)
+    
+    public function activeTrue()
     {
-        $therapist = Therapist::where('company', $company)->orderBy('id', 'asc')->get();
-
-        if (!$therapist) {
-            $data = [
-                'message' => 'Therapist no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'therapist' => $therapist,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByCompanyOrderByMinutes($company)
-    {
-        $therapist = Therapist::where('company', $company)->orderBy('minutes', 'desc')->get();
-
-        if (!$therapist) {
-            $data = [
-                'message' => 'Therapist no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'therapist' => $therapist,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByCompanyAndActive($company)
-    {
-        $therapist = Therapist::where(['company' => $company, 'active' => '1'])->orderBy('id', 'asc')->get();
+        $therapist = Therapist::where(['active' => '1'])->orderBy('id', 'asc')->get();
 
         if (!$therapist) {
             $data = [
@@ -153,7 +113,6 @@ class therapistController extends Controller
     {
         $therapist = Therapist::create([
             'active' => $request->active,
-            'company' => $request->company,
             'dateEnd' => $request->dateEnd,
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
@@ -199,7 +158,6 @@ class therapistController extends Controller
 
         $validator = Validator::make($request->all(), [
             'active' => '',
-            'company' => '',
             'dateEnd' => '',
             'drink' => '',
             'drinkTherapist' => '',
@@ -223,7 +181,6 @@ class therapistController extends Controller
         }
 
         $therapist->active = $request->active;
-        $therapist->company = $request->company;
         $therapist->dateEnd = $request->dateEnd;
         $therapist->drink = $request->drink;
         $therapist->drinkTherapist = $request->drinkTherapist;

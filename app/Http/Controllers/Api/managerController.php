@@ -123,46 +123,6 @@ class managerController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByCompany($company)
-    {
-        $manager = Manager::where('company', $company)->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getIdAndCompany($id, $company)
-    {
-        $manager = Manager::where(['id' => $id, 'company' => $company])->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
     public function getAdmin()
     {
         $manager = Manager::where(['rol' => 'administrador'])->orderBy('id', 'asc')->get();
@@ -183,9 +143,9 @@ class managerController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByCompanyAndActive($company)
+    public function activeTrue()
     {
-        $manager = Manager::where(['company' => $company, 'active' => '1'])->orderBy('id', 'asc')->get();
+        $manager = Manager::where(['active' => '1'])->orderBy('id', 'asc')->get();
 
         if (!$manager) {
             $data = [
@@ -209,7 +169,6 @@ class managerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'active' => '',
-            'company' => '',
             'drink' => '',
             'drinkTherapist' => '',
             'email' => 'required',
@@ -236,7 +195,6 @@ class managerController extends Controller
 
         $manager = Manager::create([
             'active' => $request->active,
-            'company' => $request->company,
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
             'email' => $request->email,
@@ -286,7 +244,6 @@ class managerController extends Controller
             'active' => '',
             'drink' => '',
             'drinkTherapist' => '',
-            'company' => '',
             'fixeDay' => '',
             'name' => '',
             'others' => '',
@@ -311,7 +268,6 @@ class managerController extends Controller
         $manager->active = $request->active;
         $manager->drink = $request->drink;
         $manager->drinkTherapist = $request->drinkTherapist;
-        $manager->company = $request->company;
         $manager->fixeDay = $request->fixeDay;
         $manager->name = $request->name;
         $manager->others = $request->others;

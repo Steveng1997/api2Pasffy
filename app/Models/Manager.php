@@ -13,7 +13,6 @@ class Manager extends Model
 
     protected $fillable = [
         'active',
-        'company',
         'drink',
         'drinkTherapist',
         'email',

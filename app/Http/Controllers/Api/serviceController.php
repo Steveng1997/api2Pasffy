@@ -651,10 +651,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByDateDayAndCompantCurrentDateDesc($dateToday, $company)
+    public function getByDateDayCurrentDateDesc($dateToday)
     {
-        $service = Service::where(['company' => $company])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+        $service = Service::whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->orderBy('currentDate', 'desc')
             ->get();
 
@@ -694,12 +693,12 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapistAndManagerAndCompany($therapist, $manager, $dateStart, $dateEnd, $company)
+    public function getByTherapistAndManager($therapist, $manager, $dateStart, $dateEnd)
     {
         $fromDate = $dateStart;
         $toDate = $dateEnd;
 
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0', 'company' => $company])
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])
             ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
             ->orderBy('id', 'desc')
             ->get();
@@ -720,12 +719,12 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByManagerAndDateStartAndDateEndAndCompany($manager, $dateStart, $dateEnd, $company)
+    public function getByManagerAndDateStartAndDateEnd($manager, $dateStart, $dateEnd)
     {
         $fromDate = $dateStart;
         $toDate = $dateEnd;
 
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0', 'company' => $company])
+        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])
             ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
             ->orderBy('id', 'desc')
             ->get();
@@ -746,9 +745,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManagerAndCompanyCurrentDateDesc($dateToday, $manager, $company)
+    public function getByTodayDateAndManagerCurrentDateDesc($dateToday, $manager)
     {
-        $service = Service::where(['manager' => $manager, 'company' => $company])
+        $service = Service::where(['manager' => $manager])
             ->whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->orderBy('currentDate', 'desc')
             ->get();
@@ -789,9 +788,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndTherapistAndCompany($dateToday, $therapist, $company)
+    public function getByTodayDateAndTherapist($dateToday, $therapist)
     {
-        $service = Service::where(['therapist' => $therapist, 'company' => $company])
+        $service = Service::where(['therapist' => $therapist])
             ->whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->get();
 
@@ -811,9 +810,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManagerAndCompany($dateToday, $manager, $company)
+    public function getByTodayDateAndManager($dateToday, $manager)
     {
-        $service = Service::where(['manager' => $manager, 'company' => $company])
+        $service = Service::where(['manager' => $manager])
             ->whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->get();
 
@@ -833,9 +832,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManagerAndCompanyDistinctTherapist($dateToday, $manager, $company)
+    public function getByTodayDateAndManagerDistinctTherapist($dateToday, $manager)
     {
-        $service = Service::where(['manager' => $manager, 'company' => $company])
+        $service = Service::where(['manager' => $manager])
             ->whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->distinct('therapist')
             ->get();
@@ -856,31 +855,11 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndTherapistAndManagerAndCompany($dateToday, $therapist, $manager, $company)
+    public function getByTodayDateAndTherapistAndManager($dateToday, $therapist, $manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'company' => $company])
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager])
             ->whereDate('dateToday', '=', Carbon::parse($dateToday))
             ->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getCompany($company)
-    {
-        $service = Service::where(['company' => $company])->get();
 
         if (!$service) {
             $data = [
@@ -920,7 +899,6 @@ class serviceController extends Controller
             'cashTherapist' => $request->cashTherapist,
             'closing' => $request->closing,
             'client' => $request->client,
-            'company' => $request->company,
             'createdBy' => $request->createdBy,
             'currentDate' => $request->currentDate,
             'dateStart' => $request->dateStart,
@@ -1029,7 +1007,6 @@ class serviceController extends Controller
         $service->cashTherapist = $request->cashTherapist;
         $service->closing = $request->closing;
         $service->client = $request->client;
-        $service->company = $request->company;
         $service->createdBy = $request->createdBy;
         $service->currentDate = $request->currentDate;
         $service->dateStart = $request->dateStart;

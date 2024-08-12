@@ -10,9 +10,9 @@ use Carbon\Carbon;
 
 class liquidatedTherapistController extends Controller
 {
-    public function getByCompany($company)
+    public function index()
     {
-        $liquidTherapist = LiquidatedTherapist::where('company', $company)->orderBy('id', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::orderBy('id', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [
@@ -70,9 +70,9 @@ class liquidatedTherapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByManagerAndCompany($manager, $company)
+    public function getByManager($manager)
     {
-        $liquidTherapist = LiquidatedTherapist::where(['manager' => $manager, 'company' => $company])->orderBy('id', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::where(['manager' => $manager])->orderBy('id', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [
@@ -90,9 +90,9 @@ class liquidatedTherapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapAndCompany($therapist, $company)
+    public function getByTherap($therapist)
     {
-        $liquidTherapist = LiquidatedTherapist::where(['therapist' => $therapist, 'company' => $company])->orderBy('id', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::where(['therapist' => $therapist])->orderBy('id', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [
@@ -110,11 +110,10 @@ class liquidatedTherapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getDateCurrentDay($created_at, $company)
+    public function getDateCurrentDay($created_at)
     {
-        $liquidTherapist = LiquidatedTherapist::where(['company' => $company])
-        ->whereDate('created_at', '=', Carbon::parse($created_at))
-        ->orderBy('currentDate', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::whereDate('created_at', '=', Carbon::parse($created_at))
+            ->orderBy('currentDate', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [
@@ -132,9 +131,9 @@ class liquidatedTherapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getTodayDateAndManager($created_at, $manager, $company)
+    public function getTodayDateAndManager($created_at, $manager)
     {
-        $liquidTherapist = LiquidatedTherapist::where(['created_at' => $created_at, 'manager' => $manager, 'company' => $company])->orderBy('currentDate', 'desc')->get();
+        $liquidTherapist = LiquidatedTherapist::where(['created_at' => $created_at, 'manager' => $manager])->orderBy('currentDate', 'desc')->get();
 
         if (!$liquidTherapist) {
             $data = [
@@ -158,7 +157,6 @@ class liquidatedTherapistController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => '',
-            'company' => '',
             'currentDate' => '',
             'dateStart' => '',
             'dateEnd' => '',
@@ -181,7 +179,6 @@ class liquidatedTherapistController extends Controller
 
         $liquidTherapist = LiquidatedTherapist::create([
             'amount' => $request->amount,
-            'company' => $request->company,
             'currentDate' => $request->currentDate,
             'dateStart' => $request->dateStart,
             'dateEnd' => $request->dateEnd,

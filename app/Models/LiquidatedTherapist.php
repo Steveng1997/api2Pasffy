@@ -13,7 +13,6 @@ class LiquidatedTherapist extends Model
 
     protected $fillable = [
         'amount',
-        'company',
         'currentDate',
         'dateStart',
         'dateEnd',

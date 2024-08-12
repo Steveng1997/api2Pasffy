@@ -29,7 +29,6 @@ class Service extends Model
         'cashTherapist',
         'closing',
         'client',
-        'company',
         'createdBy',
         'currentDate',
         'dateStart',

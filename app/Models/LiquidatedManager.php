@@ -13,7 +13,6 @@ class LiquidatedManager extends Model
 
     protected $fillable = [
         'amount',
-        'company',
         'currentDate',
         'dateStart',
         'dateEnd',
