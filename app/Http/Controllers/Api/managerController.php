@@ -29,127 +29,7 @@ class managerController extends Controller
 
         if (!$manager) {
             $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getIdAndRol($id)
-    {
-        $manager = Manager::where(['id' => $id, 'rol' => 'Administrador'])->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByEmail($email)
-    {
-        $manager = Manager::where('email', $email)->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByName($name)
-    {
-        $manager = Manager::where('name', $name)->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getEmailAndPassword($email, $password)
-    {
-        $manager = Manager::where(['email' => $email, 'password' => $password])->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getAdmin()
-    {
-        $manager = Manager::where(['rol' => 'administrador'])->orderBy('id', 'asc')->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'No se encontro',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function activeTrue()
-    {
-        $manager = Manager::where(['active' => '1'])->orderBy('id', 'asc')->get();
-
-        if (!$manager) {
-            $data = [
-                'message' => 'Manager no encontrada',
+                'message' => 'Manager not found',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -168,16 +48,10 @@ class managerController extends Controller
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'active' => '',
             'drink' => '',
             'drinkTherapist' => '',
-            'email' => 'required',
-            'expiration' => '',
             'fixeDay' => '',
-            'name' => '',
             'others' => '',
-            'password' => 'required|min:5',
-            'rol' => '',
             'service' => '',
             'tabacco' => '',
             'tip' => '',
@@ -186,7 +60,7 @@ class managerController extends Controller
 
         if ($validator->fails()) {
             $data = [
-                'message' => 'Error en la validación de los datos',
+                'message' => 'Data validation error',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
@@ -194,16 +68,10 @@ class managerController extends Controller
         }
 
         $manager = Manager::create([
-            'active' => $request->active,
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
-            'email' => $request->email,
-            "expiration" => $request->expiration,
             'fixeDay' => $request->fixeDay,
-            'name' => $request->name,
             'others' => $request->others,
-            'password' => $request->password,
-            'rol' => $request->rol,
             'service' => $request->service,
             'tabacco' => $request->tabacco,
             'tip' => $request->tip,
@@ -234,55 +102,45 @@ class managerController extends Controller
 
         if (!$manager) {
             $data = [
-                'message' => 'Manager no encontrada',
+                'message' => 'Manager not found',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'active' => '',
             'drink' => '',
             'drinkTherapist' => '',
             'fixeDay' => '',
-            'name' => '',
             'others' => '',
-            'password' => 'required|min:5',
             'tip' => '',
-            'rol' => '',
             'service' => '',
             'tabacco' => '',
-            'email' => 'required',
             'vitamin' => ''
         ]);
 
         if ($validator->fails()) {
             $data = [
-                'message' => 'Error en la validación de los datos',
+                'message' => 'Data validation error',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
             return response()->json($data, 400);
         }
 
-        $manager->active = $request->active;
         $manager->drink = $request->drink;
         $manager->drinkTherapist = $request->drinkTherapist;
         $manager->fixeDay = $request->fixeDay;
-        $manager->name = $request->name;
         $manager->others = $request->others;
-        $manager->password = $request->password;
         $manager->tip = $request->tip;
-        $manager->rol = $request->rol;
         $manager->service = $request->service;
         $manager->tabacco = $request->tabacco;
-        $manager->email = $request->email;
         $manager->vitamin = $request->vitamin;
 
         $manager->save();
 
         $data = [
-            'message' => 'Manager actualizada',
+            'message' => 'Updated manager',
             'manager' => $manager,
             'status' => 200
         ];
@@ -296,7 +154,7 @@ class managerController extends Controller
 
         if (!$manager) {
             $data = [
-                'message' => 'Manager no encontrada',
+                'message' => 'Manager not found',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -308,7 +166,7 @@ class managerController extends Controller
 
         if ($validator->fails()) {
             $data = [
-                'message' => 'Error en la validación de los datos',
+                'message' => 'Data validation error',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
@@ -320,7 +178,7 @@ class managerController extends Controller
         $manager->save();
 
         $data = [
-            'message' => 'Manager actualizada',
+            'message' => 'Updated manager',
             'manager' => $manager,
             'status' => 200
         ];
@@ -336,7 +194,7 @@ class managerController extends Controller
 
         if (!$manager) {
             $data = [
-                'message' => 'Manager no encontrada',
+                'message' => 'Manager not found',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -345,7 +203,7 @@ class managerController extends Controller
         $manager->delete();
 
         $data = [
-            'message' => 'Manager eliminada',
+            'message' => 'Manager removed',
             'status' => 200
         ];
 

@@ -13,16 +13,10 @@ return new class extends Migration
     {
         Schema::create('manager', function (Blueprint $table) {
             $table->id();
-            $table->boolean('active');
             $table->integer('drink');
             $table->integer('drinkTherapist');
-            $table->string('email');
-            $table->boolean('expiration');
             $table->integer('fixeDay');
-            $table->string('name')->nullable(true);
             $table->integer('others');
-            $table->string('password');
-            $table->string('rol');
             $table->integer('service');
             $table->integer('tabacco');
             $table->integer('tip');

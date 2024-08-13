@@ -12,12 +12,6 @@ use App\Http\Controllers\Api\authController;
 
 Route::get('/manager', [managerController::class, 'index']);
 Route::get('/manager/getId/{id}', [managerController::class, 'getById']);
-Route::get('/manager/idAdmin/{id}', [managerController::class, 'getIdAndRol']);
-Route::get('/manager/email/{email}', [managerController::class, 'getByEmail']);
-Route::get('/manager/name/{name}', [managerController::class, 'getByName']);
-Route::get('/manager/getEmailWithPassword/{email}/{password}', [managerController::class, 'getEmailAndPassword']);
-Route::get('/manager/getAdmin', [managerController::class, 'getAdmin']);
-Route::get('/manager/activeTrue', [managerController::class, 'activeTrue']);
 
 // Register
 Route::post('/manager', [managerController::class, 'save']);
