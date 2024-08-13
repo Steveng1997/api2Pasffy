@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\serviceController;
 use App\Http\Controllers\Api\therapistController;
 use App\Http\Controllers\Api\liquidatedManagerController;
 use App\Http\Controllers\Api\liquidatedTherapistController;
+use App\Http\Controllers\Api\authController;
 
 // Manager
 
@@ -143,3 +144,8 @@ Route::put('/service/note/{id}', [serviceController::class, 'updateNotes']);
 
 // Delete
 Route::delete('/service/{id}', [serviceController::class, 'destroy']);
+
+//AuthEndPoints
+Route::post('/register', [authController::class, 'register']);
+Route::post('/login', [authController::class, 'login']);
+Route::post('/logout', [authController::class, 'logout']);
