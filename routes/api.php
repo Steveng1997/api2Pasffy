@@ -140,6 +140,6 @@ Route::put('/service/note/{id}', [serviceController::class, 'updateNotes']);
 Route::delete('/service/{id}', [serviceController::class, 'destroy']);
 
 //AuthEndPoints
-Route::post('/register', [authController::class, 'register']);
-Route::post('/login', [authController::class, 'login']);
-Route::post('/logout', [authController::class, 'logout']);
+Route::post('/users/register', [authController::class, 'register']);
+Route::post('/users/login', [authController::class, 'login']);
+Route::post('/users/logout', [authController::class, 'logout']);
