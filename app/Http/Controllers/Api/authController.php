@@ -17,7 +17,7 @@ class authController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'expiration' => 'boolean',
             'password' => 'required|string|min:8',
-            'idAdmin' => 'nullable|numeric',
+            'idAdmin' => 'nullable|numeric'
         ]);
 
         $user = User::create([
@@ -26,7 +26,7 @@ class authController extends Controller
             'email' => $validatedData['email'],
             'expiration' => $validatedData['expiration'],
             'password' => Hash::make($validatedData['password']),
-            'idAdmin' => $validatedData['idAdmin'],
+            'idAdmin' => $validatedData['idAdmin']
         ]);
 
         return response()->json([

@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'expiration',
         'password',
-        'id_admin'
+        'id_admin',
+        'id_manager'
     ];
 
     /**
