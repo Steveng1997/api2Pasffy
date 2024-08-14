@@ -64,4 +64,24 @@ class authController extends Controller
             ]
         );
     }
+
+    public function getByEmail($email)
+    {
+        $user = User::where(['email' => $email])->get();
+
+        if (!$user) {
+            $data = [
+                'message' => 'The email is already registered',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'user' => $user,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
 }

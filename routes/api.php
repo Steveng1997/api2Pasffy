@@ -143,3 +143,4 @@ Route::delete('/service/{id}', [serviceController::class, 'destroy']);
 Route::post('/users/register', [authController::class, 'register']);
 Route::post('/users/login', [authController::class, 'login']);
 Route::post('/users/logout', [authController::class, 'logout']);
+Route::get('/users/email/{email}', [authController::class, 'getByEmail']);
