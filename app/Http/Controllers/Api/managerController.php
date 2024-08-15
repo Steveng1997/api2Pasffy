@@ -47,26 +47,6 @@ class managerController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'drink' => '',
-            'drinkTherapist' => '',
-            'fixeDay' => '',
-            'others' => '',
-            'service' => '',
-            'tabacco' => '',
-            'tip' => '',
-            'vitamin' => ''
-        ]);
-
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Data validation error',
-                'errors' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($data, 400);
-        }
-
         $manager = Manager::create([
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
@@ -78,20 +58,9 @@ class managerController extends Controller
             'vitamin' => $request->vitamin
         ]);
 
-        if (!$manager) {
-            $data = [
-                'message' => 'Error al crear la encargada',
-                'status' => 500
-            ];
-            return response()->json($data, 500);
-        }
-
-        $data = [
-            'manager' => $manager,
-            'status' => 201
-        ];
-
-        return response()->json($data, 201);
+        return response()->json([
+            'id' => $manager->id,
+        ]);
     }
 
     // Update
@@ -106,26 +75,6 @@ class managerController extends Controller
                 'status' => 404
             ];
             return response()->json($data, 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'drink' => '',
-            'drinkTherapist' => '',
-            'fixeDay' => '',
-            'others' => '',
-            'tip' => '',
-            'service' => '',
-            'tabacco' => '',
-            'vitamin' => ''
-        ]);
-
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Data validation error',
-                'errors' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($data, 400);
         }
 
         $manager->drink = $request->drink;
