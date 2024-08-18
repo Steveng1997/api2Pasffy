@@ -17,6 +17,7 @@ class Therapist extends Model
         'drink',
         'drinkTherapist',
         'exit',
+        'id_admin',
         'minutes',
         'name',
         'others',

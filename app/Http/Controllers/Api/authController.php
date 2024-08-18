@@ -14,10 +14,10 @@ class authController extends Controller
         $validatedData = $request->validate([
             'active' => 'boolean',
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'nullable|string|email|max:255|unique:users',
             'expiration' => 'boolean',
-            'password' => 'required|string|min:8',
-            'idAdmin' => 'nullable|numeric',
+            'password' => 'nullable|string|min:8',
+            'id_admin' => 'nullable|numeric',
             'id_manager' => 'nullable|numeric'
         ]);
 
@@ -27,7 +27,7 @@ class authController extends Controller
             'email' => $validatedData['email'],
             'expiration' => $validatedData['expiration'],
             'password' => Hash::make($validatedData['password']),
-            'idAdmin' => $validatedData['idAdmin'],
+            'id_admin' => $validatedData['id_admin'],
             'id_manager' => $validatedData['id_manager']
         ]);
 
@@ -74,6 +74,26 @@ class authController extends Controller
         if (!$user) {
             $data = [
                 'message' => 'The email is already registered',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'user' => $user,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function getById($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            $data = [
+                'message' => 'User not found',
                 'status' => 404
             ];
             return response()->json($data, 404);

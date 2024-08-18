@@ -11,9 +11,11 @@ class therapistController extends Controller
 {
     // Get
 
-    public function index()
+    public function index($id_admin)
     {
-        $therapist = Therapist::orderBy('id', 'asc')->get();
+        $therapist = Therapist::where('id_admin', '=', $id_admin)
+            ->orderBy('id', 'asc')
+            ->get();
 
         $data = [
             'therapist' => $therapist,
@@ -43,9 +45,9 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByName($name)
+    public function getByName($name, $id_admin)
     {
-        $therapist = Therapist::where('name', $name)->get();
+        $therapist = Therapist::where(['name' => $name, 'id_admin' => $id_admin])->get();
 
         if (!$therapist) {
             $data = [
@@ -75,9 +77,11 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function orderMinutes()
+    public function orderMinutes($id_admin)
     {
-        $therapist = Therapist::orderBy('minutes', 'desc')->get();
+        $therapist = Therapist::where('id_admin', '=', $id_admin)
+        ->orderBy('minutes', 'asc')
+        ->get();
 
         $data = [
             'therapist' => $therapist,
@@ -86,7 +90,7 @@ class therapistController extends Controller
 
         return response()->json($data, 200);
     }
-    
+
     public function activeTrue()
     {
         $therapist = Therapist::where(['active' => '1'])->orderBy('id', 'asc')->get();
@@ -117,6 +121,7 @@ class therapistController extends Controller
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
             'exit' => $request->exit,
+            'id_admin' => $request->id_admin,
             'minutes' => $request->minutes,
             'name' => $request->name,
             'others' => $request->others,
@@ -246,11 +251,11 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateItems(Request $request, $name)
+    public function updateItems($name)
     {
         $therapist = Therapist::where('name', $name)->update([
-            'dateEnd' => $request->input('dateEnd'),
-            'exit' => $request->input('exit'),
+            'dateEnd' => null,
+            'exit' => null,
             'minutes' => 0,
         ]);
 

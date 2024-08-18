@@ -11,9 +11,18 @@ class managerController extends Controller
 {
     // Get
 
-    public function index()
+    public function index($id_admin)
     {
-        $manager = Manager::orderBy('id', 'asc')->get();
+        $manager = Manager::join('users', 'users.id_manager', '=', 'manager.id')
+            ->where('users.id_admin', '=', $id_admin)
+            ->orderBy('manager.id', 'asc')
+            ->get();
+
+        if (count($manager) == "0") {
+            $manager = Manager::join('users', 'users.id_manager', '=', 'manager.id')
+                ->where('users.id', '=', $id_admin)
+                ->get();
+        }
 
         $data = [
             'manager' => $manager,
@@ -42,7 +51,7 @@ class managerController extends Controller
 
         return response()->json($data, 200);
     }
-    
+
     // Register
 
     public function save(Request $request)

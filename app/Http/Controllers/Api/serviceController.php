@@ -13,7 +13,7 @@ class serviceController extends Controller
 
     public function index()
     {
-        $service = Service::all()->sortByDesc('currentDate');
+        $service = Service::all()->sortByDesc('dateStart');
 
         if (!$service) {
             $data = [
@@ -33,7 +33,7 @@ class serviceController extends Controller
 
     public function getByTherapistAndManagerNotLiquidatedTherapist($therapist, $manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])->get();
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'idLiquidatedTherapist' =>  null])->get();
 
         if (!$service) {
             $data = [
@@ -53,7 +53,7 @@ class serviceController extends Controller
 
     public function getByTherapistNotLiquidatedTherapist($therapist)
     {
-        $service = Service::where(['therapist' => $therapist, 'liquidatedTherapist' => '0'])->orderBy('id', 'desc')->get();
+        $service = Service::where(['therapist' => $therapist, 'idLiquidatedTherapist' => null])->orderBy('id', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -73,27 +73,7 @@ class serviceController extends Controller
 
     public function getByManagerNotLiquidatedManager($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerCurrentDateDesc($manager)
-    {
-        $service = Service::where('manager', $manager)->orderBy('currentDate', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->get();
 
         if (!$service) {
             $data = [
@@ -113,7 +93,7 @@ class serviceController extends Controller
 
     public function getByLiquidateTherapistFalse()
     {
-        $service = Service::where('liquidatedTherapist', '0')->orderBy('currentDate', 'desc')->get();
+        $service = Service::where('idLiquidatedTherapist', null)->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -133,7 +113,7 @@ class serviceController extends Controller
 
     public function getByLiquidateManagerFalse()
     {
-        $service = Service::where('liquidatedManager', '0')->orderBy('currentDate', 'desc')->get();
+        $service = Service::where('idLiquidatedManager', null)->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -211,26 +191,6 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByIdEditTrue($id)
-    {
-        $service = Service::where(['id' => $id, 'edit' => '1'])->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
     public function getByTherapistIdAsc($therapist)
     {
         $service = Service::where('therapist', $therapist)->orderBy('id', 'asc')->get();
@@ -271,26 +231,6 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapist($therapist)
-    {
-        $service = Service::where('therapist', $therapist)->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
     public function getByManager($manager)
     {
         $service = Service::where('manager', $manager)->get();
@@ -313,7 +253,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedTherapist($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedTherapist' => '0'])->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedTherapist' => null])->get();
 
         if (!$service) {
             $data = [
@@ -333,7 +273,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedManagerTodayDateDesc($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->orderBy('dateToday', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->orderBy('created_at', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -353,7 +293,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedTherapistTodayDateDesc($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('dateToday', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedTherapist' => null])->orderBy('created_at', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -373,7 +313,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedManagerTodayDateAsc($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->orderBy('dateToday', 'asc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->orderBy('created_at', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -393,7 +333,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedTherapistTodayDateAsc($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('dateToday', 'asc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedTherapist' => null])->orderBy('created_at', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -411,9 +351,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapistAndManagerAndNotLiquidatedTherapistCurrentDateAsc($therapist, $manager)
+    public function getByTherapistAndManagerAndNotLiquidatedTherapistDateStart($therapist, $manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('dateStart', 'asc')->get();
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'idLiquidatedTherapist' => null])->orderBy('dateStart', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -431,29 +371,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapistAndManagerAndLiquidatedTherapistCurrentDateAsc($therapist, $manager)
+    public function getByTherapistAndManagerAndLiquidatedTherapistDateStart($therapist, $manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '1'])->orderBy('currentDate', 'asc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndLiquidatedManagerCurrentDateAsc($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '1'])->orderBy('currentDate', 'asc')->get();
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'idLiquidatedTherapist', '!=', null])->orderBy('dateStart', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -473,7 +393,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedManagerIdDesc($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->orderBy('id', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->orderBy('id', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -491,9 +411,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByManagerAndNotLiquidatedManagerCurrentDateAsc($manager)
+    public function getByManagerAndNotLiquidatedManagerDateStart($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->orderBy('currentDate', 'asc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->orderBy('dateStart', 'asc')->get();
 
         if (!$service) {
             $data = [
@@ -511,9 +431,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapistAndManagerAndNotLiquidatedTherapistCurrentDateDesc($therapist, $manager)
+    public function getByManagerAndLiquidatedManager($manager)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])->orderBy('currentDate', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager', '!=', null])->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -531,49 +451,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTherapistAndManagerAndLiquidatedTherapistCurrentDateDesc($therapist, $manager)
+    public function getByTherapist($therapist)
     {
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '1'])->orderBy('currentDate', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByManagerAndLiquidatedManagerCurrentDateDesc($manager)
-    {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '1'])->orderBy('currentDate', 'desc')->get();
-
-        if (!$service) {
-            $data = [
-                'message' => 'el servicio no fue encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
-
-        $data = [
-            'service' => $service,
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
-    }
-
-    public function getByTherapistCurrentDateDesc($therapist)
-    {
-        $service = Service::where('therapist', $therapist)->orderBy('currentDate', 'desc')->get();
+        $service = Service::where('therapist', $therapist)->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -593,7 +473,7 @@ class serviceController extends Controller
 
     public function getByManagerAndNotLiquidatedManager($manager)
     {
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])->orderBy('currentDate', 'desc')->get();
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -651,10 +531,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByDateDayCurrentDateDesc($dateToday)
+    public function getByDateDay($created_at)
     {
-        $service = Service::whereDate('dateToday', '=', Carbon::parse($dateToday))
-            ->orderBy('currentDate', 'desc')
+        $service = Service::whereDate('created_at', '=', Carbon::parse($created_at))
+            ->orderBy('dateStart', 'desc')
             ->get();
 
         if (!$service) {
@@ -698,7 +578,7 @@ class serviceController extends Controller
         $fromDate = $dateStart;
         $toDate = $dateEnd;
 
-        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'liquidatedTherapist' => '0'])
+        $service = Service::where(['therapist' => $therapist, 'manager' => $manager, 'idLiquidatedTherapist' => null])
             ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
             ->orderBy('id', 'desc')
             ->get();
@@ -724,7 +604,7 @@ class serviceController extends Controller
         $fromDate = $dateStart;
         $toDate = $dateEnd;
 
-        $service = Service::where(['manager' => $manager, 'liquidatedManager' => '0'])
+        $service = Service::where(['manager' => $manager, 'idLiquidatedManager' => null])
             ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
             ->orderBy('id', 'desc')
             ->get();
@@ -745,12 +625,9 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManagerCurrentDateDesc($dateToday, $manager)
+    public function getByTodayDateAndManagerDateStartDesc($created_at, $manager)
     {
-        $service = Service::where(['manager' => $manager])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
-            ->orderBy('currentDate', 'desc')
-            ->get();
+        $service = Service::where(['manager' => $manager])->whereDate('created_at', '=', Carbon::parse($created_at))->orderBy('dateStart', 'desc')->get();
 
         if (!$service) {
             $data = [
@@ -788,10 +665,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndTherapist($dateToday, $therapist)
+    public function getByTodayDateAndTherapist($created_at, $therapist)
     {
         $service = Service::where(['therapist' => $therapist])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->whereDate('created_at', '=', Carbon::parse($created_at))
             ->get();
 
         if (!$service) {
@@ -810,10 +687,11 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManager($dateToday, $manager)
+    public function getByTodayDateAndManager($created_at, $manager)
     {
-        $service = Service::where(['manager' => $manager])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+        $service = Service::join('users', 'users.id', '=', 'service.manager')
+            ->where(['service.manager' => $manager])
+            ->whereDate('service.created_at', '=', Carbon::parse($created_at))
             ->get();
 
         if (!$service) {
@@ -832,11 +710,14 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndManagerDistinctTherapist($dateToday, $manager)
+    public function getByTodayDateAndManagerDistinctTherapist($created_at, $therapist)
     {
-        $service = Service::where(['manager' => $manager])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
-            ->distinct('therapist')
+        $service = Service::select('therapist.name', 'therapist.id')
+            ->join('therapist', 'therapist.id', '=', 'service.therapist')
+            ->join('users', 'users.id_admin', '=', 'therapist.id_admin')
+            ->where(['therapist.id_admin' => $therapist])
+            ->whereDate('service.created_at', '=', Carbon::parse($created_at))
+            ->distinct('service.name')
             ->get();
 
         if (!$service) {
@@ -855,10 +736,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByTodayDateAndTherapistAndManager($dateToday, $therapist, $manager)
+    public function getByTodayDateAndTherapistAndManager($created_at, $therapist, $manager)
     {
         $service = Service::where(['therapist' => $therapist, 'manager' => $manager])
-            ->whereDate('dateToday', '=', Carbon::parse($dateToday))
+            ->whereDate('created_at', '=', Carbon::parse($created_at))
             ->get();
 
         if (!$service) {
@@ -900,19 +781,14 @@ class serviceController extends Controller
             'closing' => $request->closing,
             'client' => $request->client,
             'createdBy' => $request->createdBy,
-            'currentDate' => $request->currentDate,
             'dateStart' => $request->dateStart,
             'dateEnd' => $request->dateEnd,
-            'dateToday' => $request->dateToday,
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
-            'edit' => $request->edit,
             'exit' => $request->exit,
             'idClosing' => $request->idClosing,
-            'idManag' => $request->idManag,
-            'idTherap' => $request->idTherap,
-            'liquidatedManager' => $request->liquidatedManager,
-            'liquidatedTherapist' => $request->liquidatedTherapist,
+            'idLiquidatedManager' => $request->idLiquidatedManager,
+            'idLiquidatedTherapist' => $request->idLiquidatedTherapist,
             'manager' => $request->manager,
             'minutes' => $request->minutes,
             'modifiedBy' => $request->modifiedBy,
@@ -936,7 +812,6 @@ class serviceController extends Controller
             'transactionFloor1' => $request->transactionFloor1,
             'transactionFloor2' => $request->transactionFloor2,
             'transactionTherapist' => $request->transactionTherapist,
-            'uniqueId' => $request->uniqueId,
             'valueBizuManager' => $request->valueBizuManager,
             'valueBizuTherapist' => $request->valueBizuTherapist,
             'valueBizum' => $request->valueBizum,
@@ -1008,19 +883,16 @@ class serviceController extends Controller
         $service->closing = $request->closing;
         $service->client = $request->client;
         $service->createdBy = $request->createdBy;
-        $service->currentDate = $request->currentDate;
         $service->dateStart = $request->dateStart;
         $service->dateEnd = $request->dateEnd;
-        $service->dateToday = $request->dateToday;
         $service->drink = $request->drink;
         $service->drinkTherapist = $request->drinkTherapist;
-        $service->edit = $request->edit;
         $service->exit = $request->exit;
         $service->idClosing = $request->idClosing;
         $service->idManag = $request->idManag;
         $service->idTherap = $request->idTherap;
-        $service->liquidatedManager = $request->liquidatedManager;
-        $service->liquidatedTherapist = $request->liquidatedTherapist;
+        $service->idLiquidatedManager = $request->idLiquidatedManager;
+        $service->idLiquidatedTherapist = $request->idLiquidatedTherapist;
         $service->manager = $request->manager;
         $service->minutes = $request->minutes;
         $service->modifiedBy = $request->modifiedBy;
@@ -1044,7 +916,6 @@ class serviceController extends Controller
         $service->transactionFloor1 = $request->transactionFloor1;
         $service->transactionFloor2 = $request->transactionFloor2;
         $service->transactionTherapist = $request->transactionTherapist;
-        $service->uniqueId = $request->uniqueId;
         $service->valueBizuManager = $request->valueBizuManager;
         $service->valueBizuTherapist = $request->valueBizuTherapist;
         $service->valueBizum = $request->valueBizum;
@@ -1078,124 +949,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateAmountsById($id)
+    public function updateLiquidatedTherapist(Request $request, $id,)
     {
         $service = Service::find($id)->update([
-            'numberFloor1' => 0,
-            'numberTherapist' => 0,
-            'tip' => 0,
-            'service' => 0,
-            'totalService' => 0,
-            'minutes' => 0
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateNumberFloor1($uniqueId)
-    {
-        $service = Service::where('uniqueId', $uniqueId)->update([
-            'numberFloor1' => 0
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateValues($id)
-    {
-        $service = Service::find($id)->update([
-            'valueFloor1Cash' => 0,
-            'valueFloor1Bizum' => 0,
-            'valueFloor1Card' => 0,
-            'valueFloor1Transaction' => 0,
-            'valueFloor2Cash' => 0,
-            'valueFloor2Bizum' => 0,
-            'valueFloor2Card' => 0,
-            'valueFloor2Transaction' => 0
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateNumberFloor1ById(Request $request, $id)
-    {
-        $service = Service::find($id)->update([
-            'numberFloor1' => $request->input('numberFloor1'),
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateNumberFloor2ZeroById($id)
-    {
-        $service = Service::find($id)->update([
-            'numberFloor2' => 0,
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateNumberFloor2ByUniqueId(Request $request, $uniqueId)
-    {
-        $service = Service::where('uniqueId', $uniqueId)->update([
-            'numberFloor2' => $request->input('numberFloor2'),
-        ]);
-
-        if ($service) {
-            $data = [
-                'message' => 'El servicio fue actualizado correctamente!',
-                'service' => $service,
-                'status' => 200
-            ];
-        }
-
-        return response()->json($data, 200);
-    }
-
-    public function updateLiquidatedTherapist(Request $request, $id)
-    {
-        $service = Service::find($id)->update([
-            'liquidatedTherapist' => 1,
+            'idLiquidatedTherapist' =>  null,
             'idTherap' => $request->input('idTherap')
         ]);
 
@@ -1213,7 +970,7 @@ class serviceController extends Controller
     public function updateLiquidatedManager(Request $request, $id)
     {
         $service = Service::find($id)->update([
-            'liquidatedManager' => 1,
+            'idLiquidatedManager' => null,
             'idManag' => $request->input('idManag')
         ]);
 
@@ -1228,10 +985,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateLiquidatedTherapistByIdTherap($idTherap)
+    public function updateLiquidatedTherapistByIdTherap(Request $request, $idTherap)
     {
         $service = Service::where('idTherap', $idTherap)->update([
-            'liquidatedTherapist' => 0,
+            'idLiquidatedTherapist' => null,
             'idTherap' => ''
         ]);
 
@@ -1246,10 +1003,10 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateLiquidatedManagerByIdManager($idManag)
+    public function updateLiquidatedManagerByIdManager(Request $request, $idManag)
     {
         $service = Service::where('idManag', $idManag)->update([
-            'liquidatedManager' => 0,
+            'idLiquidatedManager' =>  null,
             'idManag' => ''
         ]);
 

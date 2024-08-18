@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('drink');
             $table->integer('drinkTherapist');
             $table->string('exit')->nullable(true);
+            $table->foreignId('id_admin')->constrained(table: 'users', indexName: 'id_admin');
             $table->integer('minutes');
             $table->string('name');
             $table->integer('others');
