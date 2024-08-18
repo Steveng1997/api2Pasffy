@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('therapist', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
-            $table->dateTime('dateEnd')->nullable(true);
+            $table->dateTime('dateEnds')->nullable(true);
             $table->integer('drink');
             $table->integer('drinkTherapist');
             $table->string('exit')->nullable(true);
             $table->foreignId('id_admin')->constrained(table: 'users', indexName: 'id_admin');
             $table->integer('minutes');
-            $table->string('name');
+            $table->string('therapist');
             $table->integer('others');
             $table->integer('service');
             $table->integer('tabacco');

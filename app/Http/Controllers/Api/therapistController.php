@@ -45,9 +45,9 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByName($name, $id_admin)
+    public function getByName($therapist, $id_admin)
     {
-        $therapist = Therapist::where(['name' => $name, 'id_admin' => $id_admin])->get();
+        $therapist = Therapist::where(['therapist' => $therapist, 'id_admin' => $id_admin])->get();
 
         if (!$therapist) {
             $data = [
@@ -67,7 +67,7 @@ class therapistController extends Controller
 
     public function orderDateEndDesc()
     {
-        $therapist = Therapist::orderBy('dateEnd', 'desc')->get();
+        $therapist = Therapist::orderBy('dateEnds', 'desc')->get();
 
         $data = [
             'therapist' => $therapist,
@@ -117,13 +117,13 @@ class therapistController extends Controller
     {
         $therapist = Therapist::create([
             'active' => $request->active,
-            'dateEnd' => $request->dateEnd,
+            'dateEnds' => $request->dateEnds,
             'drink' => $request->drink,
             'drinkTherapist' => $request->drinkTherapist,
             'exit' => $request->exit,
             'id_admin' => $request->id_admin,
             'minutes' => $request->minutes,
-            'name' => $request->name,
+            'therapist' => $request->therapist,
             'others' => $request->others,
             'service' => $request->service,
             'tabacco' => $request->tabacco,
@@ -163,12 +163,12 @@ class therapistController extends Controller
 
         $validator = Validator::make($request->all(), [
             'active' => '',
-            'dateEnd' => '',
+            'dateEnds' => '',
             'drink' => '',
             'drinkTherapist' => '',
             'exit' => '',
             'minutes' => '',
-            'name' => '',
+            'therapist' => '',
             'others' => '',
             'service' => '',
             'tabacco' => '',
@@ -186,12 +186,12 @@ class therapistController extends Controller
         }
 
         $therapist->active = $request->active;
-        $therapist->dateEnd = $request->dateEnd;
+        $therapist->dateEnds = $request->dateEnds;
         $therapist->drink = $request->drink;
         $therapist->drinkTherapist = $request->drinkTherapist;
         $therapist->exit = $request->exit;
         $therapist->minutes = $request->minutes;
-        $therapist->name = $request->name;
+        $therapist->therapist = $request->therapist;
         $therapist->others = $request->others;
         $therapist->service = $request->service;
         $therapist->tabacco = $request->tabacco;
@@ -209,9 +209,9 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function update3Item(Request $request, $name)
+    public function update3Item(Request $request, $therapist)
     {
-        $therapist = Therapist::where('name', $name)->first();
+        $therapist = Therapist::where('therapist', $therapist)->first();
 
         if (!$therapist) {
             $data = [
@@ -221,22 +221,7 @@ class therapistController extends Controller
             return response()->json($data, 404);
         }
 
-        $validator = Validator::make($request->all(), [
-            'dateEnd' => '',
-            'exit' => '',
-            'minutes' => ''
-        ]);
-
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validación de los datos',
-                'errors' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($data, 400);
-        }
-
-        $therapist->dateEnd = $request->dateEnd;
+        $therapist->dateEnds = $request->dateEnds;
         $therapist->exit = $request->exit;
         $therapist->minutes = $request->minutes;
 
@@ -251,10 +236,10 @@ class therapistController extends Controller
         return response()->json($data, 200);
     }
 
-    public function updateItems($name)
+    public function updateItems($therapist)
     {
-        $therapist = Therapist::where('name', $name)->update([
-            'dateEnd' => null,
+        $therapist = Therapist::where('therapist', $therapist)->update([
+            'dateEnds' => null,
             'exit' => null,
             'minutes' => 0,
         ]);

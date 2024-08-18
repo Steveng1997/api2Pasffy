@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service', function (Blueprint $table) {
-            $table->id();
+            $table->id('idService');
             $table->boolean('bizuManager');
             $table->boolean('bizuDriverTaxi');
             $table->boolean('bizuFloor1');
@@ -39,7 +39,8 @@ return new class extends Migration
             $table->bigInteger('idClosing')->nullable(true);
             $table->foreignId('idLiquidatedManager')->constrained(table: 'liquidatedManager', indexName: 'id_liquitedManager')->nullable(true);
             $table->foreignId('idLiquidatedTherapist')->constrained(table: 'liquidatedTherapist', indexName: 'id_liquitedTherapist')->nullable(true);
-            $table->foreignId('manager')->constrained(table: 'users', indexName: 'id_manager');
+            $table->foreignId('idManager')->constrained(table: 'users', indexName: 'id_manager');
+            $table->foreignId('idTherapist')->constrained(table: 'therapist', indexName: 'id_therapist');
             $table->integer('minutes')->nullable(true);
             $table->foreignId('modifiedBy')->constrained(table: 'users', indexName: 'id_user')->nullable(true);
             $table->string('note')->nullable(true);
@@ -54,7 +55,6 @@ return new class extends Migration
             $table->decimal('service', 8, 3);
             $table->decimal('tabacco', 8, 3);
             $table->decimal('taxi', 8, 3);
-            $table->foreignId('therapist')->constrained(table: 'therapist', indexName: 'id_therapist');
             $table->decimal('tip', 8, 3);
             $table->decimal('totalService', 8, 3);
             $table->boolean('transactionManager');

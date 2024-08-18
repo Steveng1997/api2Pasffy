@@ -28,7 +28,7 @@ Route::delete('/manager/{id}', [managerController::class, 'destroy']);
 
 Route::get('/therapist/{id_admin}', [therapistController::class, 'index']);
 Route::get('/therapist/getId/{id}', [therapistController::class, 'getById']);
-Route::get('/therapist/name/{name}/{id_admin}', [therapistController::class, 'getByName']);
+Route::get('/therapist/name/{therapist}/{id_admin}', [therapistController::class, 'getByName']);
 Route::get('/therapist/dateEnd', [therapistController::class, 'orderDateEndDesc']);
 Route::get('/therapist/minutes/{id_admin}', [therapistController::class, 'orderMinutes']);
 Route::get('/therapist/activeTrue', [therapistController::class, 'activeTrue']);
@@ -38,8 +38,8 @@ Route::post('/therapist', [therapistController::class, 'save']);
 
 // Update
 Route::put('/therapist/{id}', [therapistController::class, 'update']);
-Route::put('/therapist/updateItem/{name}', [therapistController::class, 'update3Item']);
-Route::put('/therapist/updateItems/{name}', [therapistController::class, 'updateItems']);
+Route::put('/therapist/updateItem/{idTherapist}', [therapistController::class, 'update3Item']);
+Route::put('/therapist/updateItems/{idTherapist}', [therapistController::class, 'updateItems']);
 Route::put('/therapist/minutes/{id}', [therapistController::class, 'updateMinutes']);
 
 // Delete
@@ -91,46 +91,46 @@ Route::delete('/liquidationTherapist/{id}', [liquidatedTherapistController::clas
 // Services
 
 Route::get('/service', [serviceController::class, 'index']);
-Route::get('/service/therapistAndManagerNotLiquidatedTherapist/{therapist}/{manager}', [serviceController::class, 'getByTherapistAndManagerNotLiquidatedTherapist']);
-Route::get('/service/therapistNotLiquidatedTherapist/{therapist}', [serviceController::class, 'getByTherapistNotLiquidatedTherapist']);
-Route::get('/service/managerNotLiquidatedManager/{manager}', [serviceController::class, 'getByManagerNotLiquidatedManager']);
+Route::get('/service/therapistAndManagerNotLiquidatedTherapist/{idTherapist}/{idManager}', [serviceController::class, 'getByTherapistAndManagerNotLiquidatedTherapist']);
+Route::get('/service/therapistNotLiquidatedTherapist/{idTherapist}', [serviceController::class, 'getByTherapistNotLiquidatedTherapist']);
+Route::get('/service/managerNotLiquidatedManager/{idManager}', [serviceController::class, 'getByManagerNotLiquidatedManager']);
 Route::get('/service/liquidateTherapistFalse', [serviceController::class, 'getByLiquidateTherapistFalse']);
 Route::get('/service/liquidateManagerFalse', [serviceController::class, 'getByLiquidateManagerFalse']);
-Route::get('/service/idTherapist/{idTherap}', [serviceController::class, 'getByIdTherapist']);
+Route::get('/service/idTherapist/{idLiquidatedTherapist}', [serviceController::class, 'getByIdTherapist']);
 Route::get('/service/idManager/{idManag}', [serviceController::class, 'getByIdManager']);
-Route::get('/service/getId/{id}', [serviceController::class, 'getById']);
-Route::get('/service/therapistIdDesc/{therapist}', [serviceController::class, 'getByTherapistIdDesc']);
-Route::get('/service/therapistAndManagerAndNotLiquidatedTherapistDateStart/{therapist}/{manager}', [serviceController::class, 'getByTherapistAndManagerAndNotLiquidatedTherapistDateStart']);
-Route::get('/service/therapistAndManagerAndLiquidatedTherapistDateStart/{therapist}/{manager}', [serviceController::class, 'getByTherapistAndManagerAndLiquidatedTherapistDateStart']);
-Route::get('/service/managerAndNotLiquidatedManagerDateStart/{manager}', [serviceController::class, 'getByManagerAndNotLiquidatedManagerDateStart']);
-Route::get('/service/managerAndLiquidatedManager/{manager}', [serviceController::class, 'getByManagerAndLiquidatedManager']);
-Route::get('/service/getByTherapist/{therapist}', [serviceController::class, 'getByTherapist']);
-Route::get('/service/managerAndNotLiquidatedManager/{manager}', [serviceController::class, 'getByManagerAndNotLiquidatedManager']);
+Route::get('/service/getId/{idService}', [serviceController::class, 'getById']);
+Route::get('/service/therapistIdDesc/{idTherapist}', [serviceController::class, 'getByTherapistIdDesc']);
+Route::get('/service/therapistAndManagerAndNotLiquidatedTherapistDateStart/{idTherapist}/{idManager}', [serviceController::class, 'getByTherapistAndManagerAndNotLiquidatedTherapistDateStart']);
+Route::get('/service/therapistAndManagerAndLiquidatedTherapistDateStart/{idTherapist}/{idManager}', [serviceController::class, 'getByTherapistAndManagerAndLiquidatedTherapistDateStart']);
+Route::get('/service/managerAndNotLiquidatedManagerDateStart/{idManager}', [serviceController::class, 'getByManagerAndNotLiquidatedManagerDateStart']);
+Route::get('/service/managerAndLiquidatedManager/{idManager}', [serviceController::class, 'getByManagerAndLiquidatedManager']);
+Route::get('/service/getByTherapist/{idTherapist}', [serviceController::class, 'getByTherapist']);
+Route::get('/service/managerAndNotLiquidatedManager/{idManager}', [serviceController::class, 'getByManagerAndNotLiquidatedManager']);
 Route::get('/service/dateDay/{created_at}', [serviceController::class, 'getByDateDay']);
 Route::get('/service/uniqueIdDesc/{uniqueId}', [serviceController::class, 'getByUniqueIdDesc']);
-Route::get('/service/therapistAndManager/{therapist}/{manager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByTherapistAndManager']);
-Route::get('/service/managerAndDateStartAndDateEnd/{manager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByManagerAndDateStartAndDateEnd']);
-Route::get('/service/todayDateAndManagerDateStartDesc/{created_at}/{manager}', [serviceController::class, 'getByTodayDateAndManagerDateStartDesc']);
+Route::get('/service/therapistAndManager/{idTherapist}/{idManager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByTherapistAndManager']);
+Route::get('/service/managerAndDateStartAndDateEnd/{idManager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByManagerAndDateStartAndDateEnd']);
+Route::get('/service/todayDateAndManagerDateStartDesc/{created_at}/{idManager}', [serviceController::class, 'getByTodayDateAndManagerDateStartDesc']);
 Route::get('/service/getLikePayment/{payment}', [serviceController::class, 'getLikePayment']);
-Route::get('/service/todayDateAndTherapist/{created_at}/{therapist}', [serviceController::class, 'getByTodayDateAndTherapist']);
-Route::get('/service/todayDateAndManager/{created_at}/{manager}', [serviceController::class, 'getByTodayDateAndManager']);
-Route::get('/service/todayDateAndManagerDistinctTherapist/{created_at}/{therapist}', [serviceController::class, 'getByTodayDateAndManagerDistinctTherapist']);
-Route::get('/service/todayDateAndTherapistAndManager/{created_at}/{therapist}/{manager}', [serviceController::class, 'getByTodayDateAndTherapistAndManager']);
+Route::get('/service/todayDateAndTherapist/{created_at}/{idTherapist}', [serviceController::class, 'getByTodayDateAndTherapist']);
+Route::get('/service/todayDateAndManager/{created_at}/{idManager}', [serviceController::class, 'getByTodayDateAndManager']);
+Route::get('/service/todayDateAndManagerDistinctTherapist/{created_at}/{idTherapist}', [serviceController::class, 'getByTodayDateAndManagerDistinctTherapist']);
+Route::get('/service/todayDateAndTherapistAndManager/{created_at}/{idTherapist}/{idManager}', [serviceController::class, 'getByTodayDateAndTherapistAndManager']);
 
 // Register
 Route::post('/service', [serviceController::class, 'save']);
 
 // Update
-Route::put('/service/{id}', [serviceController::class, 'update']);
-Route::put('/service/liquidatedTherapist/{id}', [serviceController::class, 'updateLiquidatedTherapist']);
-Route::put('/service/liquidatedManager/{id}', [serviceController::class, 'updateLiquidatedManager']);
-Route::put('/service/liquidatedTherapistByIdTherap/{idTherap}', [serviceController::class, 'updateLiquidatedTherapistByIdTherap']);
-Route::put('/service/liquidatedManagerByIdManager/{idManag}', [serviceController::class, 'updateLiquidatedManagerByIdManager']);
-Route::put('/service/screen/{id}', [serviceController::class, 'updateScreen']);
-Route::put('/service/note/{id}', [serviceController::class, 'updateNotes']);
+Route::put('/service/{idService}', [serviceController::class, 'update']);
+Route::put('/service/liquidatedTherapist/{idService}', [serviceController::class, 'updateLiquidatedTherapist']);
+Route::put('/service/liquidatedManager/{idService}', [serviceController::class, 'updateLiquidatedManager']);
+Route::put('/service/liquidatedTherapistByIdTherap/{idLiquidatedTherapist}', [serviceController::class, 'updateLiquidatedTherapistByIdTherap']);
+Route::put('/service/liquidatedManagerByIdManager/{idLiquidatedManager}', [serviceController::class, 'updateLiquidatedManagerByIdManager']);
+Route::put('/service/screen/{idService}', [serviceController::class, 'updateScreen']);
+Route::put('/service/note/{idService}', [serviceController::class, 'updateNotes']);
 
 // Delete
-Route::delete('/service/{id}', [serviceController::class, 'destroy']);
+Route::delete('/service/{idService}', [serviceController::class, 'destroy']);
 
 //AuthEndPoints
 Route::post('/users/register', [authController::class, 'register']);
