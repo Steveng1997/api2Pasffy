@@ -13,13 +13,13 @@ class Therapist extends Model
 
     protected $fillable = [
         'active',
-        'dateEnd',
+        'dateEnds',
         'drink',
         'drinkTherapist',
         'exit',
         'id_admin',
         'minutes',
-        'name',
+        'therapist',
         'others',
         'service',
         'tabacco',

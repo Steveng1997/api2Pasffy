@@ -106,4 +106,33 @@ class authController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $users = User::find($id);
+
+        if (!$users) {
+            $data = [
+                'message' => 'User not found',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $users->email = $request->email;
+        $users->name = $request->name;
+        $users->password = $request->password;
+
+        $users->save();
+
+        if ($users) {
+            $data = [
+                'message' => 'The user was updated!',
+                'users' => $users,
+                'status' => 200
+            ];
+        }
+
+        return response()->json($data, 200);
+    }
 }

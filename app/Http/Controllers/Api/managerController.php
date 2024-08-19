@@ -34,7 +34,9 @@ class managerController extends Controller
 
     public function getById($id)
     {
-        $manager = Manager::find($id);
+        $manager = Manager::join('users', 'users.id_manager', '=', 'manager.id')
+        ->where('users.id', '=', $id)
+        ->get();
 
         if (!$manager) {
             $data = [

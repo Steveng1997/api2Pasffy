@@ -133,8 +133,14 @@ Route::put('/service/note/{idService}', [serviceController::class, 'updateNotes'
 Route::delete('/service/{idService}', [serviceController::class, 'destroy']);
 
 //AuthEndPoints
+
+Route::get('/users/email/{email}', [authController::class, 'getByEmail']);
+Route::get('/users/id/{id_admin}', [authController::class, 'getById']);
+
+// Register
 Route::post('/users/register', [authController::class, 'register']);
 Route::post('/users/login', [authController::class, 'login']);
 Route::post('/users/logout', [authController::class, 'logout']);
-Route::get('/users/email/{email}', [authController::class, 'getByEmail']);
-Route::get('/users/id/{id_admin}', [authController::class, 'getById']);
+
+// Update
+Route::put('/users/{id}', [authController::class, 'update']);
