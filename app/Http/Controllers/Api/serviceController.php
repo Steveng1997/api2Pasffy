@@ -793,6 +793,7 @@ class serviceController extends Controller
             'closing' => $request->closing,
             'client' => $request->client,
             'createdBy' => $request->createdBy,
+            'created_at' => $request->created_at,
             'dateStart' => $request->dateStart,
             'dateEnd' => $request->dateEnd,
             'drink' => $request->drink,
@@ -824,6 +825,7 @@ class serviceController extends Controller
             'transactionFloor1' => $request->transactionFloor1,
             'transactionFloor2' => $request->transactionFloor2,
             'transactionTherapist' => $request->transactionTherapist,
+            'updated_at' => $request->updated_at,
             'valueBizuManager' => $request->valueBizuManager,
             'valueBizuTherapist' => $request->valueBizuTherapist,
             'valueBizum' => $request->valueBizum,
@@ -918,7 +920,7 @@ class serviceController extends Controller
             'transactionFloor1' => $request->transactionFloor1,
             'transactionFloor2' => $request->transactionFloor2,
             'transactionTherapist' => $request->transactionTherapist,
-            'updated_at' => now(),
+            'updated_at' => $request->updated_at,
             'valueBizuManager' => $request->valueBizuManager,
             'valueBizuTherapist' => $request->valueBizuTherapist,
             'valueBizum' => $request->valueBizum,
@@ -940,8 +942,6 @@ class serviceController extends Controller
             'valueTransactionManager' => $request->valueTransactionManager,
             'valueTransactionTherapist' => $request->valueTransactionTherapist,
             'vitamin' => $request->vitamin
-
-            // $service->save();
         ]);
 
         $data = [
