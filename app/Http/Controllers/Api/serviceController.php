@@ -586,7 +586,7 @@ class serviceController extends Controller
         $toDate = $dateEnd;
 
         $service = Service::where(['idTherapist' => $idTherapist, 'idManager' => $idManager, 'idLiquidatedTherapist' => null])
-            ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
+            ->whereRaw("(dateStart >= ? AND dateStart <= ?)", [$fromDate, $toDate])
             ->orderBy('idService', 'desc')
             ->get();
 
@@ -612,7 +612,7 @@ class serviceController extends Controller
         $toDate = $dateEnd;
 
         $service = Service::where(['idManager' => $idManager, 'idLiquidatedManager' => null])
-            ->whereRaw("(dateStart >= ? AND dateEnd <= ?)", [$fromDate, $toDate])
+            ->whereRaw("(dateStart >= ? AND dateStart <= ?)", [$fromDate, $toDate])
             ->orderBy('idService', 'desc')
             ->get();
 
