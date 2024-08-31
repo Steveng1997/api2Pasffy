@@ -47,12 +47,12 @@ class authController extends Controller
         }
 
         $user->tokens()->delete();
+        $user->token = $user->createToken('auth_token');
 
         return response()->json([
             'status' => 'success',
             'message' => 'User logged in successfully',
-            'name' => $user->name,
-            'token' => $user->createToken('auth_token'),
+            'user' => $user,
         ]);
     }
 

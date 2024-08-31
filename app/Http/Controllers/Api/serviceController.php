@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\User;
 
 class serviceController extends Controller
 {
@@ -536,14 +537,28 @@ class serviceController extends Controller
         return response()->json($data, 200);
     }
 
-    public function getByDateDay($created_at)
+    public function getByDateDay($created_at, $id, $id_admin)
     {
-        $service = Service::join('users', 'users.id', '=', 'service.idManager')
-            ->join('therapist', 'therapist.id', '=', 'service.idTherapist')
-            ->whereDate('service.created_at', '=', Carbon::parse($created_at))
+       $service=[];
+        if($id_admin == 'null'){
+            $users = User::where('id_admin', $id)->get();;
+            
+            foreach($users as $user){               
+                $response = Service::where('idManager',$user->id)->whereDate('created_at','=', Carbon::parse($created_at))
+                ->orderBy('service.dateStart', 'desc')
+                ->get();
+                $service=array_merge($service, $response->toArray());               
+            }
+
+
+        }
+        else{           
+            $service = Service::where('idManager',$id)->whereDate('created_at','=', Carbon::parse($created_at))
             ->orderBy('service.dateStart', 'desc')
             ->get();
 
+        }
+        
         if (!$service) {
             $data = [
                 'message' => 'el servicio no fue encontrado',

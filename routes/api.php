@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\authController;
 
 // Manager
 
-Route::get('/manager/{id_admin}', [managerController::class, 'index']);
-Route::get('/manager/getId/{id}', [managerController::class, 'getById']);
+Route::get('/manager/{id_admin}', [managerController::class, 'getAll']);
+Route::get('/manager/{id}', [managerController::class, 'getById']);
 
 // Register
 Route::post('/manager', [managerController::class, 'save']);
@@ -106,7 +106,7 @@ Route::get('/service/managerAndNotLiquidatedManagerDateStart/{idManager}', [serv
 Route::get('/service/managerAndLiquidatedManager/{idManager}', [serviceController::class, 'getByManagerAndLiquidatedManager']);
 Route::get('/service/getByTherapist/{idTherapist}', [serviceController::class, 'getByTherapist']);
 Route::get('/service/managerAndNotLiquidatedManager/{idManager}', [serviceController::class, 'getByManagerAndNotLiquidatedManager']);
-Route::get('/service/dateDay/{created_at}', [serviceController::class, 'getByDateDay']);
+Route::get('/service/dateDay/{created_at}/{id}/{id_admin}', [serviceController::class, 'getByDateDay']);
 Route::get('/service/uniqueIdDesc/{uniqueId}', [serviceController::class, 'getByUniqueIdDesc']);
 Route::get('/service/therapistAndManager/{idTherapist}/{idManager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByTherapistAndManager']);
 Route::get('/service/managerAndDateStartAndDateEnd/{idManager}/{dateStart}/{dateEnd}', [serviceController::class, 'getByManagerAndDateStartAndDateEnd']);

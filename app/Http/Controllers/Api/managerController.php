@@ -11,18 +11,18 @@ class managerController extends Controller
 {
     // Get
 
-    public function index($id_admin)
+    public function getAll($id_admin)
     {
         $manager = Manager::join('users', 'users.id_manager', '=', 'manager.id')
             ->where('users.id_admin', '=', $id_admin)
             ->orderBy('manager.id', 'asc')
             ->get();
 
-        if (count($manager) == "0") {
+       /*if (count($manager) == "0") {
             $manager = Manager::join('users', 'users.id_manager', '=', 'manager.id')
                 ->where('users.id', '=', $id_admin)
                 ->get();
-        }
+        }*/
 
         $data = [
             'manager' => $manager,
